@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/15 15:26:57 by lfourque          #+#    #+#             */
-/*   Updated: 2017/04/26 17:40:25 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/04/28 17:02:44 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 class	Shader {
 	private:
-		std::map<std::string, int>	_uniform;
+		std::map<std::string, GLint>	_uniform;
 
 		Shader(Shader const & rhs);
 		Shader &	operator=(Shader const & rhs);
@@ -29,6 +29,7 @@ class	Shader {
 		inline void			disable() { glUseProgram(0); };
 
 		std::string		readFile(std::string path);
+		void			link(std::string path, GLenum type);
 		GLuint			compile(std::string source, GLenum type);
 		GLint			uniform(std::string name);
 		void			addUniform(std::string name);

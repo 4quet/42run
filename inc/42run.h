@@ -6,15 +6,15 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 15:48:48 by lfourque          #+#    #+#             */
-/*   Updated: 2017/04/26 17:56:44 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/04/28 19:11:26 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FORTY_TWO_RUN_H
 # define FORTY_TWO_RUN_H
 
-# define WINDOW_HEIGHT 800
-# define WINDOW_WIDTH 600
+# define WINDOW_HEIGHT 1000
+# define WINDOW_WIDTH 1000
 
 # include <iostream>
 # include <map>

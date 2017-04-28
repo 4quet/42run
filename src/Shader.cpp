@@ -6,37 +6,34 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/15 15:33:25 by lfourque          #+#    #+#             */
-/*   Updated: 2017/04/26 17:47:27 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/04/28 16:05:34 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <42run.h>
 
 Shader::Shader() {
-	std::string	vertexCode;
-	std::string	fragmentCode;
+	programId = glCreateProgram();
+}
+
+void	Shader::link(std::string path, GLenum type) {
+	std::string	code;
+	GLuint		id;
 	GLint		status;
 
-	GLuint		vertexId;
-	GLuint		fragmentId;
+	code = readFile(path);
+	id = compile(code, type);
 
-	vertexCode = readFile("shaders/vertex.glsl");
-	fragmentCode = readFile("shaders/fragment.glsl");
-
-	vertexId = compile(vertexCode, GL_VERTEX_SHADER);
-	fragmentId = compile(fragmentCode, GL_FRAGMENT_SHADER);
-
-	programId = glCreateProgram();
-	glAttachShader(programId, vertexId);
-	glAttachShader(programId, fragmentId);
-
+	glAttachShader(programId, id);
 	glLinkProgram(programId);
-
+	
 	glGetProgramiv(programId, GL_LINK_STATUS, &status);
 	if (status == GL_FALSE)
 		throw std::runtime_error("Shader program link failed");
-	glDeleteShader(vertexId);
-	glDeleteShader(fragmentId);
+	else {
+		std::cout << "Shader program successfully linked: " << path << std::endl; 
+	}
+	glDeleteShader(id);
 }
 
 std::string	Shader::readFile(std::string path) {
@@ -65,9 +62,7 @@ GLuint		Shader::compile(std::string source, GLenum type) {
 
 	glGetShaderiv(shaderID, GL_COMPILE_STATUS, &status);
 	if (status == GL_FALSE)
-	{
 		throw std::runtime_error("Shader compilation failed");
-	}
 	return shaderID;
 }
 
