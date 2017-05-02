@@ -1,34 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   GLFW.hpp                                           :+:      :+:    :+:   */
+/*   App.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 15:26:41 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/02 18:52:56 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/05/02 19:04:03 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GLFW_HPP
-# define GLFW_HPP
+#ifndef APP_HPP
+# define APP_HPP
 
-class GLFW {
+class App {
 
 	private:
-		GLFWwindow	*_window;
-
-		GLFW &	operator=(GLFW const & rhs);
-		GLFW(GLFW const & rhs);
+		App &	operator=(App const & rhs);
+		App(App const & rhs);
 
 	public:
-		GLFW();
-		~GLFW();
+		App();
+		~App();
 
-		void	init();
-		
-		GLFWwindow *	getWindow() const;
-
+		void	start(GLFWwindow *window);
+		void	drawSlice();
 };
 
 #endif

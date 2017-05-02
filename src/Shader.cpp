@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/15 15:33:25 by lfourque          #+#    #+#             */
-/*   Updated: 2017/04/28 16:05:34 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/05/02 14:35:34 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,8 @@ void	Shader::link(std::string path, GLenum type) {
 	glGetProgramiv(programId, GL_LINK_STATUS, &status);
 	if (status == GL_FALSE)
 		throw std::runtime_error("Shader program link failed");
-	else {
+	else 
 		std::cout << "Shader program successfully linked: " << path << std::endl; 
-	}
 	glDeleteShader(id);
 }
 

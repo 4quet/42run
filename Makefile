@@ -6,7 +6,7 @@
 #    By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/04 08:44:51 by lfourque          #+#    #+#              #
-#    Updated: 2017/04/26 17:31:11 by lfourque         ###   ########.fr        #
+#    Updated: 2017/05/02 18:55:19 by lfourque         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,8 +16,10 @@ OBJ_DIR = obj/
 
 NAME = 42run
 SRC_FILES = main.cpp\
+			App.cpp\
 			GLFW.cpp\
-			Shader.cpp
+			Shader.cpp\
+			Camera.cpp
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 OBJ	= $(subst $(SRC_DIR), $(OBJ_DIR), $(SRC:.cpp=.o))
