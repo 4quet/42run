@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 15:48:48 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/02 18:50:01 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/05/03 14:22:29 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,8 @@
 # include <App.hpp>
 # include <Shader.hpp>
 # include <Camera.hpp>
+# include <Path.hpp>
+
+void	pm(glm::mat4 mat);
 
 #endif
