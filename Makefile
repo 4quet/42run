@@ -6,7 +6,7 @@
 #    By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/04 08:44:51 by lfourque          #+#    #+#              #
-#    Updated: 2017/05/03 14:21:04 by lfourque         ###   ########.fr        #
+#    Updated: 2017/05/04 16:11:05 by lfourque         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ SRC_FILES = main.cpp\
 			Shader.cpp\
 			Camera.cpp\
 			utils.cpp\
-			Path.cpp
+			Path.cpp\
+			Wall.cpp
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 OBJ	= $(subst $(SRC_DIR), $(OBJ_DIR), $(SRC:.cpp=.o))
@@ -32,7 +33,7 @@ CFLAGS = -Wall -Wextra -Werror
 GLFW_LIB = `pkg-config --libs glfw3`
 GLFW_INC = `pkg-config --cflags glfw3`
 GLM_INC = inc/glm
-FWK = -framework OpenGL
+FWK = -framework OpenGL -L libSOIL/lib -lSOIL
 
 all: $(NAME)
 	@echo "\033[32m•\033[0m $(NAME) ready"
@@ -42,7 +43,7 @@ $(NAME): $(OBJ)
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.cpp
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -I $(INC_DIR) -I $(GLM_INC) $(GLFW_INC) -o $@ -c $<
+	$(CC) $(CFLAGS) -I $(INC_DIR) -I $(GLM_INC) $(GLFW_INC) -I inc/libSOIL -o $@ -c $<
 
 clean:
 	rm -rf $(OBJ_DIR)

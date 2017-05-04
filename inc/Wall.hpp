@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Path.hpp                                           :+:      :+:    :+:   */
+/*   Wall.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/03 14:12:00 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/04 15:48:24 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/05/04 15:59:56 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PATH_HPP
-# define PATH_HPP
+#ifndef WALL_HPP
+# define WALL_HPP
 
-class Path {
+class Wall {
 	private:
 		GLuint	VAO;
 		GLuint	VBO;
@@ -25,15 +25,15 @@ class Path {
 
 		glm::mat4 	model;
 
-		Path(Path const & rhs);
-		Path &	operator=(Path const & rhs);
+		Wall(Wall const & rhs);
+		Wall &	operator=(Wall const & rhs);
 
 	public:
-		Path();
+		Wall();
 		
 		void	draw(Shader & shader, float speed);
 
-		~Path();
+		~Wall();
 };
 
 #endif

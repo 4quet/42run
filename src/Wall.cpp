@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Path.cpp                                           :+:      :+:    :+:   */
+/*   Wall.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/03 14:10:38 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/04 16:43:27 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/05/04 16:43:20 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <42run.h>
 
-Path::Path() {
+Wall::Wall() {
 
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
@@ -20,8 +20,8 @@ Path::Path() {
 
 	GLfloat vertices[] = {
 		// Positions          // Colors         // Texture Coords
-		0.5f,  0.0f, 0.5f,   1.0f, 1.0f, 1.0f,	6.0f, 10.0f,  // Top Right
-		0.5f, 0.0f, -0.5f,   1.0f, 1.0f, 1.0f,	6.0f, 0.0f,	// Bottom Right
+		0.5f,  0.0f, 0.5f,   1.0f, 1.0f, 1.0f,	4.0f, 10.0f,  // Top Right
+		0.5f, 0.0f, -0.5f,   1.0f, 1.0f, 1.0f,	4.0f, 0.0f,	// Bottom Right
 		-0.5f, 0.0f, -0.5f,  1.0f, 1.0f, 1.0f,	0.0f, 0.0f, // Bottom Left
 		-0.5f,  0.0f, 0.5f,  1.0f, 1.0f, 1.0f,  0.0f, 10.0f  // Top Left
 	};
@@ -53,7 +53,7 @@ Path::Path() {
 	glBindVertexArray(0);
 
 	int width, height;
-	unsigned char* image = SOIL_load_image("assets/darkfloor.png", &width, &height, 0, SOIL_LOAD_RGB); 
+	unsigned char* image = SOIL_load_image("assets/sandwall.png", &width, &height, 0, SOIL_LOAD_RGB); 
 	std::cout << width << ";" << height << std::endl;
 
 	glGenTextures(1, &texture);  
@@ -66,13 +66,15 @@ Path::Path() {
 	SOIL_free_image_data(image);
 	glBindTexture(GL_TEXTURE_2D, 0);
 
-	model = glm::scale(model, glm::vec3(6.0f, 1.0f, 10.0f));
+	model = glm::translate(model, glm::vec3(3.0f, 2.0f, 0.0f));
+	model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	model = glm::scale(model, glm::vec3(4.0f, 1.0f, 10.0f));
 
 	offset = 0.0f;
 
 }
 
-void	Path::draw(Shader & shader, GLfloat speed) {
+void	Wall::draw(Shader & shader, GLfloat speed) {
 
 	(void)speed;
 
@@ -91,6 +93,6 @@ void	Path::draw(Shader & shader, GLfloat speed) {
 	glBindVertexArray(0);
 }
 
-Path::~Path() {
+Wall::~Wall() {
 
 }

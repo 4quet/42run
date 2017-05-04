@@ -6,15 +6,15 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 15:48:48 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/03 14:22:29 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/05/04 16:11:17 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FORTY_TWO_RUN_H
 # define FORTY_TWO_RUN_H
 
-# define WINDOW_WIDTH 1920
-# define WINDOW_HEIGHT 1080
+# define WINDOW_WIDTH 1024
+# define WINDOW_HEIGHT 1024
 # define Z_NEAR 1
 # define Z_FAR 100
 
@@ -22,6 +22,7 @@
 # include <map>
 # include <sstream>
 # include <fstream>
+# include <cmath>
 
 # define GLFW_INCLUDE_GLCOREARB
 # include <GLFW/glfw3.h>
@@ -30,12 +31,15 @@
 # include <glm/gtc/matrix_transform.hpp>
 # include <glm/gtc/type_ptr.hpp>
 
+# include <SOIL.h>
+
 # include <GLFW.hpp>
 # include <App.hpp>
 # include <Shader.hpp>
 # include <Camera.hpp>
 # include <Path.hpp>
+# include <Wall.hpp>
 
-void	pm(glm::mat4 mat);
+void	pm4(glm::mat4 mat);
 
 #endif
