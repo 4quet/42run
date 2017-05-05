@@ -6,7 +6,7 @@
 #    By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/04 08:44:51 by lfourque          #+#    #+#              #
-#    Updated: 2017/05/04 16:11:05 by lfourque         ###   ########.fr        #
+#    Updated: 2017/05/05 13:42:05 by lfourque         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,8 +21,7 @@ SRC_FILES = main.cpp\
 			Shader.cpp\
 			Camera.cpp\
 			utils.cpp\
-			Path.cpp\
-			Wall.cpp
+			Plane.cpp
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 OBJ	= $(subst $(SRC_DIR), $(OBJ_DIR), $(SRC:.cpp=.o))

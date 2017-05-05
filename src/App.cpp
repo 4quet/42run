@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 15:38:31 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/04 16:10:53 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/05/05 13:40:17 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,32 @@ void	App::start(GLFWwindow *window) {
 	shader.setUniformMatrix(camera.view(), "view");
 	shader.setUniformMatrix(camera.projection(), "projection");
 
-	GLfloat speed = 0.05f;
+	GLfloat speed = 0.005f;
 
-	Path	path;
-	Wall	wall;
+	Plane		floor;
+	glm::mat4	floorModel;
+
+	floor.loadTexture("assets/darkfloor.png");
+	floorModel = glm::scale(floorModel, glm::vec3(6.0f, 1.0f, 10.0f));
+	floor.setModelMatrix(floorModel);
+
+	Plane		leftWall;
+	glm::mat4	leftWallModel;
+
+	leftWall.loadTexture("assets/sandwall.png");
+	leftWallModel = glm::translate(leftWallModel, glm::vec3(3.0f, 2.0f, 0.0f));
+	leftWallModel = glm::rotate(leftWallModel, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	leftWallModel = glm::scale(leftWallModel, glm::vec3(4.0f, 1.0f, 10.0f));
+	leftWall.setModelMatrix(leftWallModel);
+
+	Plane		rightWall;
+	glm::mat4	rightWallModel;
+
+	rightWall.loadTexture("assets/sandwall.png");
+	rightWallModel = glm::translate(rightWallModel, glm::vec3(-3.0f, 2.0f, 0.0f));
+	rightWallModel = glm::rotate(rightWallModel, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	rightWallModel = glm::scale(rightWallModel, glm::vec3(4.0f, 1.0f, 10.0f));
+	rightWall.setModelMatrix(rightWallModel);
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -54,8 +76,9 @@ void	App::start(GLFWwindow *window) {
 		glClear(GL_COLOR_BUFFER_BIT);
 
 
-		path.draw(shader, speed);
-		wall.draw(shader, speed);
+		floor.draw(shader, speed);
+		leftWall.draw(shader, speed);
+		rightWall.draw(shader, speed);
 
 		glfwSwapBuffers(window);
 	}	
