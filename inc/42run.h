@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 15:48:48 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/05 13:40:04 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/05/09 15:43:36 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 # include <Shader.hpp>
 # include <Camera.hpp>
 # include <Plane.hpp>
+# include <Cube.hpp>
 
 void	pm4(glm::mat4 mat);
 

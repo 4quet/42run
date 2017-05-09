@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Plane.hpp                                          :+:      :+:    :+:   */
+/*   Cube.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/03 14:12:00 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/05 17:14:50 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/05/09 15:42:09 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PLANE_HPP
-# define PLANE_HPP
+#ifndef CUBE_HPP
+# define CUBE_HPP
 
-class Plane {
+class Cube {
 	private:
 		GLuint	VAO;
 		GLuint	VBO;
-		GLuint	EBO;
 
 		GLuint texture;
 
@@ -25,11 +24,11 @@ class Plane {
 
 		glm::mat4 	model;
 
-		Plane(Plane const & rhs);
-		Plane &	operator=(Plane const & rhs);
+		Cube(Cube const & rhs);
+		Cube &	operator=(Cube const & rhs);
 
 	public:
-		Plane();
+		Cube();
 		
 		void	draw(Shader & shader, float speed);
 		void	loadTexture(std::string path, GLenum type);
@@ -37,7 +36,7 @@ class Plane {
 		void	setModelMatrix(glm::mat4 m);
 		glm::mat4	getModelMatrix() const;
 
-		~Plane();
+		~Cube();
 };
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 15:38:31 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/02 18:56:12 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/05/05 17:20:36 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,10 @@ void	GLFW::init() {
 	glfwGetFramebufferSize(_window, &width, &height);
 
 	glfwSetKeyCallback(_window, key_callback); 
+
+	glEnable(GL_DEPTH_TEST); 
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glViewport(0, 0, width, height);
 }

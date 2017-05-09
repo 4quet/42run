@@ -1,6 +1,5 @@
 #version 410 core
 
-in vec4 vertexColor;
 in vec2 TexCoord;
 
 uniform sampler2D ourTexture;
