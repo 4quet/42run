@@ -6,7 +6,7 @@
 #    By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/04 08:44:51 by lfourque          #+#    #+#              #
-#    Updated: 2017/05/09 15:43:14 by lfourque         ###   ########.fr        #
+#    Updated: 2017/05/10 11:22:00 by lfourque         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,8 @@ SRC_FILES = main.cpp\
 			Camera.cpp\
 			utils.cpp\
 			Cube.cpp\
-			Plane.cpp
+			Plane.cpp\
+			Table.cpp
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))
 OBJ	= $(subst $(SRC_DIR), $(OBJ_DIR), $(SRC:.cpp=.o))

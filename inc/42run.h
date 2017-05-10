@@ -6,15 +6,15 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 15:48:48 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/09 15:43:36 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/05/10 11:22:14 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FORTY_TWO_RUN_H
 # define FORTY_TWO_RUN_H
 
-# define WINDOW_WIDTH 1024
-# define WINDOW_HEIGHT 1024
+# define WINDOW_WIDTH 1920
+# define WINDOW_HEIGHT 1080
 # define Z_NEAR 1
 # define Z_FAR 100
 
@@ -39,6 +39,7 @@
 # include <Camera.hpp>
 # include <Plane.hpp>
 # include <Cube.hpp>
+# include <Table.hpp>
 
 void	pm4(glm::mat4 mat);
 

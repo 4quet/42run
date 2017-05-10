@@ -10,9 +10,15 @@ uniform mat4 projection;
 uniform float offset;
 
 out vec2 TexCoord;
+out vec4 vEyeSpacePos;
 
 void main()
 {
-	gl_Position = projection * view * model * vec4(position, 1.0);
+	vec4 worldPosition = model * vec4(position, 1.0f);
+	vec4 positionRelativeToCam = view * worldPosition;
+
+	vEyeSpacePos = positionRelativeToCam;
+
+	gl_Position = projection * view * worldPosition;
 	TexCoord = texCoord + vec2(0.0f, offset);
 }

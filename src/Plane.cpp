@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/03 14:10:38 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/09 15:38:28 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/05/10 13:37:18 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ void	Plane::loadTexture(std::string path, GLenum type) {
 
 	soilType = (type == GL_RGBA) ? SOIL_LOAD_RGBA : SOIL_LOAD_RGB;
 	unsigned char* image = SOIL_load_image(path.c_str(), &width, &height, 0, soilType); 
-	std::cout << width << ";" << height << std::endl;
 
 	glGenTextures(1, &texture);  
 
