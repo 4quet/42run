@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 15:38:31 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/10 15:27:21 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/05/15 16:31:24 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,38 @@
 #define TN 10
 
 App::App() {
+	glm::mat4	catModel;
+
+	catModel = glm::translate(catModel, glm::vec3(0.0f, 0.5f, -23.0f));
+	catModel = glm::rotate(catModel, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	cat.setModelMatrix(catModel);
 }
 
-void	App::drawSlice() {
+void	App::handleInput(GLFWwindow *window) {
+	glm::mat4	catModel = cat.getModelMatrix();
 
-	
+	glfwPollEvents();
+
+	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && keys[GLFW_KEY_LEFT] != GLFW_PRESS)
+	{
+		catModel = glm::translate(catModel, glm::vec3(1.0f, 0.0f, 0.0f));
+		cat.setModelMatrix(catModel);
+	}
+	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && keys[GLFW_KEY_RIGHT] != GLFW_PRESS)
+	{
+		catModel = glm::translate(catModel, glm::vec3(-1.0f, 0.0f, 0.0f));
+		cat.setModelMatrix(catModel);
+	}
+
+	for (int i = 0; i < 350; ++i)
+	{
+		keys[i] = glfwGetKey(window, i);
+	}
 }
 
-void	App::start(GLFWwindow *window) {
+void	App::start(GLFW & glfw) {
+
+	GLFWwindow	*window = glfw.getWindow();
 
 	Shader shader;
 	shader.link("shaders/vertex.glsl", GL_VERTEX_SHADER);
@@ -34,7 +58,7 @@ void	App::start(GLFWwindow *window) {
 	GLfloat mv = -speed * depth;
 	std::cout << "mv: " << mv << std::endl;
 
-	GLfloat camZ = -25.0f;
+	GLfloat camZ = -30.0f;
 
 	GLfloat	floorWidth = 30.0f;
 	GLfloat	wallsHeight = 50.0f;
@@ -88,6 +112,7 @@ void	App::start(GLFWwindow *window) {
 	Table	table(glm::vec3(floorWidth / 2.0f - 6.0f, 0.0f, 0.0f));
 	Table	table2(glm::vec3(-(floorWidth / 2.0f - 6.0f), 0.0f, 0.0f));
 
+
 	Plane		floor;
 	glm::mat4	floorModel;
 
@@ -113,12 +138,28 @@ void	App::start(GLFWwindow *window) {
 	rightWallModel = glm::scale(rightWallModel, glm::vec3(wallsHeight, 1.0f, depth));
 	rightWall.setModelMatrix(rightWallModel);
 
+	GLfloat current;
+	GLfloat	last = 0.0f;
+	GLfloat delta;
+	int count = 0;
+	int steps[] = { 0, 1, 2, 1 };
+
 	while (!glfwWindowShouldClose(window))
 	{
-		glfwPollEvents();
 		glClearColor(0.85f, 0.85f, 0.85f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		handleInput(window);
+
+		current = glfwGetTime();
+		delta = current - last;
+
+		if (delta >= 0.2f)
+		{
+			count++;
+			cat.loadTexture("assets/bwcat" + std::to_string(steps[count % 4]) + ".png", GL_RGBA);
+			last = current;
+		}
 
 		floor.draw(shader, speed);
 		leftWall.draw(shader, speed);
@@ -147,6 +188,8 @@ void	App::start(GLFWwindow *window) {
 			comp2[i].setModelMatrix(compModel2[i]);
 			comp2[i].draw(shader, 0);
 		}
+
+		cat.draw(shader, 0.0f);
 
 
 		glfwSwapBuffers(window);

@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 15:26:45 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/02 18:50:41 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/05/15 15:05:33 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	main() {
 	GLFW	glfw;
 	App		app;
 
-	app.start(glfw.getWindow());
+	app.start(glfw);
 
 	return (0);
 }

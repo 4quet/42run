@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 15:26:41 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/02 19:04:03 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/05/15 16:22:17 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,20 @@
 class App {
 
 	private:
+		int 	keys[350];
+		Plane	cat;
+
 		App &	operator=(App const & rhs);
 		App(App const & rhs);
 
+		void	handleInput(GLFWwindow *window);
+
 	public:
+
 		App();
 		~App();
 
-		void	start(GLFWwindow *window);
-		void	drawSlice();
+		void	start(GLFW & glfw);
 };
 
 #endif

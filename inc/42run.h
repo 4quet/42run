@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 15:48:48 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/10 11:22:14 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/05/15 16:23:04 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <sstream>
 # include <fstream>
 # include <cmath>
+# include <string>
 
 # define GLFW_INCLUDE_GLCOREARB
 # include <GLFW/glfw3.h>
@@ -34,12 +35,12 @@
 # include <SOIL.h>
 
 # include <GLFW.hpp>
-# include <App.hpp>
 # include <Shader.hpp>
 # include <Camera.hpp>
 # include <Plane.hpp>
 # include <Cube.hpp>
 # include <Table.hpp>
+# include <App.hpp>
 
 void	pm4(glm::mat4 mat);
 

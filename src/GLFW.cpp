@@ -6,19 +6,19 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 15:38:31 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/05 17:20:36 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/05/15 15:25:49 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <42run.h>
 
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
+void GLFW::key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
 {
 	(void)scancode;
 	(void)mode;
 	// When a user presses the escape key, we set the WindowShouldClose property to true, 
 	// closing the application
-	if(key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GL_TRUE);
 } 
 
