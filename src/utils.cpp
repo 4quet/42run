@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/03 12:47:23 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/03 13:15:42 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/05/18 15:03:31 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,4 +22,9 @@ void	pm4(glm::mat4 mat) {
 		std::cout << std::endl;
 	}
 	std::cout << std::endl;
+}
+
+GLfloat	randFloat(GLfloat low, GLfloat high)
+{
+	return low + static_cast <GLfloat> (rand()) /( static_cast <GLfloat> (RAND_MAX / (high - low)));
 }

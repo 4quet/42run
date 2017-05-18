@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 15:48:48 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/15 16:23:04 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/05/18 15:03:05 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,10 @@
 # include <map>
 # include <sstream>
 # include <fstream>
-# include <cmath>
 # include <string>
+# include <cmath>
+# include <cstdlib>
+# include <ctime>
 
 # define GLFW_INCLUDE_GLCOREARB
 # include <GLFW/glfw3.h>
@@ -43,5 +45,6 @@
 # include <App.hpp>
 
 void	pm4(glm::mat4 mat);
+GLfloat	randFloat(GLfloat low, GLfloat high);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/03 14:10:38 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/15 13:11:34 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/05/18 14:46:54 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void	Plane::draw(Shader & shader, GLfloat speed) {
 
 	glBindTexture(GL_TEXTURE_2D, texture);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	glBindTexture(GL_TEXTURE_2D, 0);
 	
 	glBindVertexArray(0);
 }

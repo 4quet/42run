@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 15:26:45 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/15 15:05:33 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/05/18 18:09:35 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ int	main() {
 	GLFW	glfw;
 	App		app;
 
-	app.start(glfw);
+	srand(static_cast <unsigned> (time(0)));
+	std::cout << "42run start" << std::endl;
+	app.start(glfw.getWindow());
 
 	return (0);
 }

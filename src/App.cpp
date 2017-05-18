@@ -6,15 +6,13 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 15:38:31 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/16 16:57:29 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/05/18 18:58:13 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <42run.h>
 
 App::App() {
-	glm::mat4	catModel;
-
 	catModel = glm::translate(catModel, glm::vec3(0.0f, 0.5f, -23.0f));
 	catModel = glm::rotate(catModel, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 	cat.setModelMatrix(catModel);
@@ -32,7 +30,7 @@ App::App() {
 }
 
 void	App::handleInput(GLFWwindow *window) {
-	glm::mat4	catModel = cat.getModelMatrix();
+	catModel = cat.getModelMatrix();
 
 	glfwPollEvents();
 
@@ -61,9 +59,17 @@ void	App::handleInput(GLFWwindow *window) {
 	}
 }
 
-void	App::start(GLFW & glfw) {
+void	App::applyGravity() {
+	catModel = glm::translate(cat.getModelMatrix(), glm::vec3(0.0f, 0.0f, velocityY));
+	if (catModel[3].y < 0.5f) 
+	{
+		catModel[3].y = 0.5f;
+		onGround = true;
+	}
+	cat.setModelMatrix(catModel);
+}
 
-	GLFWwindow	*window = glfw.getWindow();
+void	App::start(GLFWwindow *window) {
 
 	Shader shader;
 	shader.link("shaders/vertex.glsl", GL_VERTEX_SHADER);
@@ -75,8 +81,8 @@ void	App::start(GLFW & glfw) {
 
 
 	Camera camera(glm::vec3(0.0f, 3.0f, camZ),
-				glm::vec3(0.0f, 0.0f, 0.0f),
-				glm::vec3(0.0f, 1.0f, 0.0f));
+			glm::vec3(0.0f, 0.0f, 0.0f),
+			glm::vec3(0.0f, 1.0f, 0.0f));
 	camera.setPerspective(45.0f);
 
 	shader.use();
@@ -95,13 +101,22 @@ void	App::start(GLFW & glfw) {
 	for (int i = 0; i < TABLES; ++i)
 		rightTables[i] = new Table(glm::vec3(-(floorWidth / 2.0f - 6.0f), 0.0f, 5.0f * (GLfloat)i));
 
+	Plane		obstacle;
+	glm::mat4	obstacleModel;
+
+	obstacle.loadTexture("assets/comp.png", GL_RGBA);
+	obstacleModel = glm::translate(obstacleModel, glm::vec3(0.0f, 0.4f, 0.0f));
+	obstacleModel = glm::rotate(obstacleModel, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	obstacle.setModelMatrix(obstacleModel);
+
+
+
 	GLfloat current;
 	GLfloat	last = 0.0f;
 	GLfloat delta;
 	int count = 0;
 	int steps[] = { 0, 1, 2, 1 };
 
-	glm::mat4	catModel;
 	glm::mat4	compModel;
 
 
@@ -112,19 +127,9 @@ void	App::start(GLFW & glfw) {
 
 		handleInput(window);
 
-		// ---------- JUMP --
 		velocityY += gravity;
-		catModel = cat.getModelMatrix();
-		catModel = glm::translate(catModel, glm::vec3(0.0f, 0.0f, velocityY));
-		if (catModel[3].y <= 0.5f) 
-		{
-			catModel[3].y = 0.5f;
-			onGround = true;
-		}
-		/*
-		*/
-		cat.setModelMatrix(catModel);
-		// -----------
+		if (onGround == false)
+			applyGravity();
 
 		current = glfwGetTime();
 		delta = current - last;
@@ -137,35 +142,33 @@ void	App::start(GLFW & glfw) {
 		}
 
 		floor.draw(shader, speed);
+
 		leftWall.draw(shader, speed);
 		rightWall.draw(shader, speed);
+
+		obstacleModel = glm::translate(obstacleModel, glm::vec3(0.0f, mv, 0.0f));
+		if (obstacleModel[3].z < camZ)
+			obstacleModel = glm::translate(obstacleModel, glm::vec3(0.0f, depth, 0.0f));
+		obstacle.setModelMatrix(obstacleModel);
+		obstacle.draw(shader, 0);
+
+		cat.draw(shader, 0.0f);
+
 
 		for (int i = 0; i < TABLES; ++i)
 			leftTables[i]->draw(shader, speed, depth);
 		for (int i = 0; i < TABLES; ++i)
 			rightTables[i]->draw(shader, speed, depth);
 
-		
-		for (int i = 0; i < TABLES; ++i)
+		for (int i = COMP; i >= 0; --i)
 		{
-			compModel = compR1[i].getModelMatrix();
-			compModel = glm::translate(compModel, glm::vec3(0.0f, mv, 0.0f));
+			compModel = glm::translate(comp[i].getModelMatrix(), glm::vec3(0.0f, mv, 0.0f));
 			if (compModel[3].z < camZ)
 				compModel = glm::translate(compModel, glm::vec3(0.0f, depth, 0.0f));
-			compR1[i].setModelMatrix(compModel);
-			compR1[i].draw(shader, 0);
-		}
-		for (int i = 0; i < TABLES; ++i)
-		{
-			compModel = compR2[i].getModelMatrix();
-			compModel = glm::translate(compModel, glm::vec3(0.0f, mv, 0.0f));
-			if (compModel[3].z < camZ)
-				compModel = glm::translate(compModel, glm::vec3(0.0f, depth, 0.0f));
-			compR2[i].setModelMatrix(compModel);
-			compR2[i].draw(shader, 0);
+			comp[i].setModelMatrix(compModel);
+			comp[i].draw(shader, 0);
 		}
 
-		cat.draw(shader, 0.0f);
 
 
 		glfwSwapBuffers(window);
@@ -196,22 +199,23 @@ void	App::initPlanes() {
 
 void	App::initComputersSprites() {
 	glm::mat4	compModel;
+	GLfloat		halfFloor = floorWidth / 2.0f;
+	GLfloat		offset;
 
-	for (int i = 0; i < TABLES; ++i)
+	for (int i = 0; i < COMP; i += 2)
 	{
-		compModel = glm::mat4();
-		compR1[i].loadTexture("assets/comp.png", GL_RGBA);
-		compModel = glm::translate(compModel, glm::vec3(floorWidth / 2.0f - 4.0f, 1.6f, 5.0f * (GLfloat)i));
+		offset = (i % 4) ? 8.0f : 4.0f;
+
+		comp[i].loadTexture("assets/comp.png", GL_RGBA);
+		comp[i + 1].loadTexture("assets/comp.png", GL_RGBA);
+
+		compModel = glm::translate(glm::mat4(), glm::vec3(halfFloor - offset, 1.4f, 5.0f * ((GLfloat)i / 2.0f)));
 		compModel = glm::rotate(compModel, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		compR1[i].setModelMatrix(compModel);
-	}
-	for (int i = 0; i < TABLES; ++i)
-	{
-		compModel = glm::mat4();
-		compR2[i].loadTexture("assets/comp.png", GL_RGBA);
-		compModel = glm::translate(compModel, glm::vec3(floorWidth / 2.0f - 8.0f, 1.6f, 5.0f * (GLfloat)i));
+		comp[i].setModelMatrix(compModel);
+
+		compModel = glm::translate(glm::mat4(), glm::vec3(-halfFloor + offset, 1.4f, 5.0f * ((GLfloat)i / 2.0f)));
 		compModel = glm::rotate(compModel, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		compR2[i].setModelMatrix(compModel);
+		comp[i + 1].setModelMatrix(compModel);
 	}
 }
 

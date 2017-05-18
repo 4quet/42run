@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/03 14:12:00 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/05 17:14:50 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/05/18 14:40:18 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ class Plane {
 		GLuint	VBO;
 		GLuint	EBO;
 
-		GLuint texture;
 
 		GLfloat	offset;
 
@@ -29,6 +28,8 @@ class Plane {
 		Plane &	operator=(Plane const & rhs);
 
 	public:
+		GLuint texture;
+
 		Plane();
 		
 		void	draw(Shader & shader, float speed);
