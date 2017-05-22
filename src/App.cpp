@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 15:38:31 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/18 18:58:13 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/05/22 15:46:48 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	App::start(GLFWwindow *window) {
 	GLfloat camZ = -30.0f;
 
 
+
 	Camera camera(glm::vec3(0.0f, 3.0f, camZ),
 			glm::vec3(0.0f, 0.0f, 0.0f),
 			glm::vec3(0.0f, 1.0f, 0.0f));
@@ -101,14 +102,13 @@ void	App::start(GLFWwindow *window) {
 	for (int i = 0; i < TABLES; ++i)
 		rightTables[i] = new Table(glm::vec3(-(floorWidth / 2.0f - 6.0f), 0.0f, 5.0f * (GLfloat)i));
 
-	Plane		obstacle;
+
+	Cube	obstacle;
 	glm::mat4	obstacleModel;
 
-	obstacle.loadTexture("assets/comp.png", GL_RGBA);
-	obstacleModel = glm::translate(obstacleModel, glm::vec3(0.0f, 0.4f, 0.0f));
-	obstacleModel = glm::rotate(obstacleModel, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	obstacle.loadTexture("assets/cr8.jpg", GL_RGB);
+	obstacleModel = glm::translate(obstacleModel, glm::vec3(0.0f, 0.5f, 0.0f));
 	obstacle.setModelMatrix(obstacleModel);
-
 
 
 	GLfloat current;
@@ -139,20 +139,13 @@ void	App::start(GLFWwindow *window) {
 			count++;
 			cat.loadTexture("assets/bwcat" + std::to_string(steps[count % 4]) + ".png", GL_RGBA);
 			last = current;
+			counter.addOne();
 		}
 
 		floor.draw(shader, speed);
 
 		leftWall.draw(shader, speed);
 		rightWall.draw(shader, speed);
-
-		obstacleModel = glm::translate(obstacleModel, glm::vec3(0.0f, mv, 0.0f));
-		if (obstacleModel[3].z < camZ)
-			obstacleModel = glm::translate(obstacleModel, glm::vec3(0.0f, depth, 0.0f));
-		obstacle.setModelMatrix(obstacleModel);
-		obstacle.draw(shader, 0);
-
-		cat.draw(shader, 0.0f);
 
 
 		for (int i = 0; i < TABLES; ++i)
@@ -166,13 +159,32 @@ void	App::start(GLFWwindow *window) {
 			if (compModel[3].z < camZ)
 				compModel = glm::translate(compModel, glm::vec3(0.0f, depth, 0.0f));
 			comp[i].setModelMatrix(compModel);
-			comp[i].draw(shader, 0);
+			comp[i].draw(shader, 0.0f);
 		}
+
+
+		obstacleModel = glm::translate(obstacleModel, glm::vec3(0.0f, 0.0f, mv));
+		if (obstacleModel[3].z < camZ)
+			obstacleModel = glm::translate(obstacleModel, glm::vec3(0.0f, 0.0f, depth));
+		obstacle.setModelMatrix(obstacleModel);
+		obstacle.draw(shader, 0.0f);
+
+		cat.draw(shader, 0.0f);
+		counter.draw(shader);
+
+		checkCollision(obstacleModel);
 
 
 
 		glfwSwapBuffers(window);
 	}	
+}
+
+void	App::checkCollision(glm::mat4 obstacle) {
+	if (catModel[3].x < obstacle[3].x + 0.5f && catModel[3].x > obstacle[3].x - 0.5f
+	 && catModel[3].y < obstacle[3].y + 0.5f && catModel[3].y > obstacle[3].y - 0.5f
+	 && catModel[3].z < obstacle[3].z + 0.5f && catModel[3].z > obstacle[3].z - 0.5f)
+//		counter.addOne();
 }
 
 void	App::initPlanes() {

@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 15:26:41 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/18 18:09:05 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/05/22 15:36:52 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ class App {
 		GLfloat		velocityY;
 		GLfloat		gravity;
 		GLboolean	onGround;
+
+		Counter		counter;
 
 		Plane	leftWall;
 		Plane	rightWall;
@@ -49,6 +51,8 @@ class App {
 		void	initComputersSprites();
 
 		void	applyGravity();
+
+		void	checkCollision(glm::mat4 obstacle);
 
 	public:
 
