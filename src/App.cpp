@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 15:38:31 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/22 15:46:48 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/05/23 16:16:08 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ App::App() {
 	velocityY = 0.0f;
 	gravity = 0.01f;
 	onGround = true;
+	gameOver = false;
 
 	speed = 0.002f;
 	depth = 50.0f;
@@ -34,12 +35,12 @@ void	App::handleInput(GLFWwindow *window) {
 
 	glfwPollEvents();
 
-	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && keys[GLFW_KEY_LEFT] != GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && keys[GLFW_KEY_LEFT] != GLFW_PRESS && onGround)
 	{
 		catModel = glm::translate(catModel, glm::vec3(1.0f, 0.0f, 0.0f));
 		cat.setModelMatrix(catModel);
 	}
-	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && keys[GLFW_KEY_RIGHT] != GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && keys[GLFW_KEY_RIGHT] != GLFW_PRESS && onGround)
 	{
 		catModel = glm::translate(catModel, glm::vec3(-1.0f, 0.0f, 0.0f));
 		cat.setModelMatrix(catModel);
@@ -75,7 +76,7 @@ void	App::start(GLFWwindow *window) {
 	shader.link("shaders/vertex.glsl", GL_VERTEX_SHADER);
 	shader.link("shaders/fragment.glsl", GL_FRAGMENT_SHADER);
 
-	GLfloat mv = -speed * depth;
+	GLfloat mv;
 
 	GLfloat camZ = -30.0f;
 
@@ -103,12 +104,16 @@ void	App::start(GLFWwindow *window) {
 		rightTables[i] = new Table(glm::vec3(-(floorWidth / 2.0f - 6.0f), 0.0f, 5.0f * (GLfloat)i));
 
 
-	Cube	obstacle;
+	Cube	obstacles[OBST];
 	glm::mat4	obstacleModel;
 
-	obstacle.loadTexture("assets/cr8.jpg", GL_RGB);
-	obstacleModel = glm::translate(obstacleModel, glm::vec3(0.0f, 0.5f, 0.0f));
-	obstacle.setModelMatrix(obstacleModel);
+	for (int i = 0; i < OBST; ++i) 
+	{
+		obstacles[i].loadTexture("assets/cr8.jpg", GL_RGB);
+		obstacleModel = glm::translate(glm::mat4(), glm::vec3((GLfloat)randInt(-1, 2), 0.5f,
+					(GLfloat)randInt(0, (int)depth)));
+		obstacles[i].setModelMatrix(obstacleModel);
+	}
 
 
 	GLfloat current;
@@ -122,69 +127,81 @@ void	App::start(GLFWwindow *window) {
 
 	while (!glfwWindowShouldClose(window))
 	{
-		glClearColor(0.85f, 0.85f, 0.85f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 		handleInput(window);
-
-		velocityY += gravity;
-		if (onGround == false)
-			applyGravity();
-
-		current = glfwGetTime();
-		delta = current - last;
-
-		if (delta >= 0.2f)
+		if (gameOver == false)
 		{
-			count++;
-			cat.loadTexture("assets/bwcat" + std::to_string(steps[count % 4]) + ".png", GL_RGBA);
-			last = current;
-			counter.addOne();
+			glClearColor(0.85f, 0.85f, 0.85f, 1.0f);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+
+			velocityY += gravity;
+			if (onGround == false)
+				applyGravity();
+
+			current = glfwGetTime();
+			delta = current - last;
+
+			if (delta >= 0.2f - speed * 10.0f)
+			{
+				count++;
+				cat.loadTexture("assets/bwcat" + std::to_string(steps[count % 4]) + ".png", GL_RGBA);
+				last = current;
+				counter.addOne();
+				speed += 0.00001f;
+			}
+			mv = -speed * depth;
+
+			floor.draw(shader, speed);
+
+			leftWall.draw(shader, speed);
+			rightWall.draw(shader, speed);
+
+
+			for (int i = 0; i < TABLES; ++i)
+				leftTables[i]->draw(shader, speed, depth);
+			for (int i = 0; i < TABLES; ++i)
+				rightTables[i]->draw(shader, speed, depth);
+
+			for (int i = COMP; i >= 0; --i)
+			{
+				compModel = glm::translate(comp[i].getModelMatrix(), glm::vec3(0.0f, mv, 0.0f));
+				if (compModel[3].z < camZ)
+					compModel = glm::translate(compModel, glm::vec3(0.0f, depth, 0.0f));
+				comp[i].setModelMatrix(compModel);
+				comp[i].draw(shader, 0.0f);
+			}
+
+
+			for (int i = 0; i < OBST; ++i)
+			{
+				obstacleModel = glm::translate(obstacles[i].getModelMatrix(), glm::vec3(0.0f, 0.0f, mv));
+				if (obstacleModel[3].z < camZ)
+					obstacleModel = glm::translate(obstacleModel, glm::vec3(0.0f, 0.0f,
+								randInt((int)depth, (int)depth * 2)));
+				obstacles[i].setModelMatrix(obstacleModel);
+				obstacles[i].draw(shader, 0.0f);
+			}
+
+			cat.draw(shader, 0.0f);
+			counter.draw(shader);
+
+			for (int i = 0; i < OBST; ++i)
+			{
+				checkCollision(obstacles[i].getModelMatrix()[3]);
+			}
+
+
+
+			glfwSwapBuffers(window);
 		}
-
-		floor.draw(shader, speed);
-
-		leftWall.draw(shader, speed);
-		rightWall.draw(shader, speed);
-
-
-		for (int i = 0; i < TABLES; ++i)
-			leftTables[i]->draw(shader, speed, depth);
-		for (int i = 0; i < TABLES; ++i)
-			rightTables[i]->draw(shader, speed, depth);
-
-		for (int i = COMP; i >= 0; --i)
-		{
-			compModel = glm::translate(comp[i].getModelMatrix(), glm::vec3(0.0f, mv, 0.0f));
-			if (compModel[3].z < camZ)
-				compModel = glm::translate(compModel, glm::vec3(0.0f, depth, 0.0f));
-			comp[i].setModelMatrix(compModel);
-			comp[i].draw(shader, 0.0f);
-		}
-
-
-		obstacleModel = glm::translate(obstacleModel, glm::vec3(0.0f, 0.0f, mv));
-		if (obstacleModel[3].z < camZ)
-			obstacleModel = glm::translate(obstacleModel, glm::vec3(0.0f, 0.0f, depth));
-		obstacle.setModelMatrix(obstacleModel);
-		obstacle.draw(shader, 0.0f);
-
-		cat.draw(shader, 0.0f);
-		counter.draw(shader);
-
-		checkCollision(obstacleModel);
-
-
-
-		glfwSwapBuffers(window);
 	}	
 }
 
-void	App::checkCollision(glm::mat4 obstacle) {
-	if (catModel[3].x < obstacle[3].x + 0.5f && catModel[3].x > obstacle[3].x - 0.5f
-	 && catModel[3].y < obstacle[3].y + 0.5f && catModel[3].y > obstacle[3].y - 0.5f
-	 && catModel[3].z < obstacle[3].z + 0.5f && catModel[3].z > obstacle[3].z - 0.5f)
-//		counter.addOne();
+void	App::checkCollision(glm::vec3 obsPos) {
+	if (catModel[3].x < obsPos.x + 0.5f && catModel[3].x > obsPos.x - 0.5f
+			&& catModel[3].y < obsPos.y + 0.5f && catModel[3].y > obsPos.y - 0.5f
+			&& catModel[3].z < obsPos.z + 0.5f && catModel[3].z > obsPos.z - 0.5f)
+		gameOver = true;
 }
 
 void	App::initPlanes() {

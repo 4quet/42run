@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 15:26:41 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/22 15:36:52 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/05/23 16:09:55 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # define TABLES	10
 # define COMP	20
+# define OBST	10
 
 class App {
 
@@ -26,6 +27,7 @@ class App {
 		GLfloat		velocityY;
 		GLfloat		gravity;
 		GLboolean	onGround;
+		GLboolean	gameOver;
 
 		Counter		counter;
 
@@ -52,7 +54,7 @@ class App {
 
 		void	applyGravity();
 
-		void	checkCollision(glm::mat4 obstacle);
+		void	checkCollision(glm::vec3 obsPos);
 
 	public:
 

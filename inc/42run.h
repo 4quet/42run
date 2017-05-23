@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 15:48:48 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/22 14:16:19 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/05/23 16:07:00 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,6 @@
 
 void	pm4(glm::mat4 mat);
 GLfloat	randFloat(GLfloat low, GLfloat high);
+int		randInt(int low, int high);
 
 #endif
