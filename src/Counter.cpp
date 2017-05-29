@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/22 14:15:24 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/22 15:07:08 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/05/29 12:13:06 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,31 @@
 Counter::Counter() {
 	glm::mat4	model;
 
-	uSprite.loadTexture("assets/0.png", GL_RGBA);
 	model = glm::translate(model, glm::vec3(-13.0f, 8.0f, -10.0f));	
 	model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 	model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 	uSprite.setModelMatrix(model);
 
-	tSprite.loadTexture("assets/0.png", GL_RGBA);
 	model = glm::translate(glm::mat4(), glm::vec3(-12.0f, 8.0f, -10.0f));	
 	model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 	model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 	tSprite.setModelMatrix(model);
 
-	hSprite.loadTexture("assets/0.png", GL_RGBA);
 	model = glm::translate(glm::mat4(), glm::vec3(-11.0f, 8.0f, -10.0f));	
 	model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 	model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 	hSprite.setModelMatrix(model);
 
+	reset();
+}
+
+void	Counter::reset() {
 	units = 0;
 	tens = 0;
 	hundreds = 0;
+	uSprite.loadTexture("assets/0.png", GL_RGBA);
+	tSprite.loadTexture("assets/0.png", GL_RGBA);
+	hSprite.loadTexture("assets/0.png", GL_RGBA);
 }
 
 void	Counter::draw(Shader & shader) {

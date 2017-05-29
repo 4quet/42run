@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 15:26:41 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/23 16:09:55 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/05/29 12:02:47 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ class App {
 		Table	*rightTables[TABLES];
 		Table	*leftTables[TABLES];
 
+		Cube	obstacles[OBST];
+
 		Plane	comp[COMP];
 
 		GLfloat	floorWidth;
@@ -50,6 +52,8 @@ class App {
 
 		void	handleInput(GLFWwindow *window);
 		void	initPlanes();
+		void	initObstacles();
+		void	initTables();
 		void	initComputersSprites();
 
 		void	applyGravity();

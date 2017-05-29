@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/22 14:12:57 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/22 14:43:01 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/05/29 12:07:30 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ class Counter {
 	public:
 		Counter();
 
+		void	reset();
 		void	draw(Shader & shader);
 		void	addOne();
 		void	addTen();

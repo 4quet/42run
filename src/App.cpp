@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 15:38:31 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/23 16:16:08 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/05/29 12:08:57 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,19 @@ void	App::handleInput(GLFWwindow *window) {
 
 	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS && keys[GLFW_KEY_LEFT] != GLFW_PRESS && onGround)
 	{
-		catModel = glm::translate(catModel, glm::vec3(1.0f, 0.0f, 0.0f));
-		cat.setModelMatrix(catModel);
+		if (catModel[3].x < 0.5f)
+		{
+			catModel = glm::translate(catModel, glm::vec3(1.0f, 0.0f, 0.0f));
+			cat.setModelMatrix(catModel);
+		}
 	}
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS && keys[GLFW_KEY_RIGHT] != GLFW_PRESS && onGround)
 	{
-		catModel = glm::translate(catModel, glm::vec3(-1.0f, 0.0f, 0.0f));
-		cat.setModelMatrix(catModel);
+		if (catModel[3].x > -0.5f)
+		{
+			catModel = glm::translate(catModel, glm::vec3(-1.0f, 0.0f, 0.0f));
+			cat.setModelMatrix(catModel);
+		}
 	}
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
 	{
@@ -52,6 +58,14 @@ void	App::handleInput(GLFWwindow *window) {
 			velocityY = -0.2f;
 			onGround = false;
 		}
+	}
+	if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
+	{
+		initTables();
+		initObstacles();
+		counter.reset();
+		speed = 0.002f;
+		gameOver = false;
 	}
 
 	for (int i = 0; i < 350; ++i)
@@ -68,6 +82,25 @@ void	App::applyGravity() {
 		onGround = true;
 	}
 	cat.setModelMatrix(catModel);
+}
+
+void	App::initTables() {
+	for (int i = 0; i < TABLES; ++i)
+		leftTables[i] = new Table(glm::vec3(floorWidth / 2.0f - 6.0f, 0.0f, 5.0f * (GLfloat)i));
+	for (int i = 0; i < TABLES; ++i)
+		rightTables[i] = new Table(glm::vec3(-(floorWidth / 2.0f - 6.0f), 0.0f, 5.0f * (GLfloat)i));
+}
+
+void	App::initObstacles() {
+	glm::mat4	obstacleModel;
+
+	for (int i = 0; i < OBST; ++i) 
+	{
+		obstacles[i].loadTexture("assets/cr8.jpg", GL_RGB);
+		obstacleModel = glm::translate(glm::mat4(), glm::vec3((GLfloat)randInt(-1, 2), 0.5f,
+					(GLfloat)randInt(0, (int)depth)));
+		obstacles[i].setModelMatrix(obstacleModel);
+	}
 }
 
 void	App::start(GLFWwindow *window) {
@@ -98,22 +131,18 @@ void	App::start(GLFWwindow *window) {
 	shader.setUniformMatrix(camera.view(), "view");
 	shader.setUniformMatrix(camera.projection(), "projection");
 
-	for (int i = 0; i < TABLES; ++i)
-		leftTables[i] = new Table(glm::vec3(floorWidth / 2.0f - 6.0f, 0.0f, 5.0f * (GLfloat)i));
-	for (int i = 0; i < TABLES; ++i)
-		rightTables[i] = new Table(glm::vec3(-(floorWidth / 2.0f - 6.0f), 0.0f, 5.0f * (GLfloat)i));
+	Plane	go;
+	glm::mat4	goModel;
 
+	go.loadTexture("assets/go.png", GL_RGB);
+	goModel = glm::translate(goModel, glm::vec3(0.0f, 2.0f, -24.0f));
+	goModel = glm::rotate(goModel, glm::radians(110.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	goModel = glm::rotate(goModel, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	goModel = glm::scale(goModel, glm::vec3(6.0f, 6.0f, 6.0f));
+	go.setModelMatrix(goModel);
 
-	Cube	obstacles[OBST];
-	glm::mat4	obstacleModel;
-
-	for (int i = 0; i < OBST; ++i) 
-	{
-		obstacles[i].loadTexture("assets/cr8.jpg", GL_RGB);
-		obstacleModel = glm::translate(glm::mat4(), glm::vec3((GLfloat)randInt(-1, 2), 0.5f,
-					(GLfloat)randInt(0, (int)depth)));
-		obstacles[i].setModelMatrix(obstacleModel);
-	}
+	initTables();
+	initObstacles();
 
 
 	GLfloat current;
@@ -123,13 +152,12 @@ void	App::start(GLFWwindow *window) {
 	int steps[] = { 0, 1, 2, 1 };
 
 	glm::mat4	compModel;
+	glm::mat4	obstacleModel;
 
 
 	while (!glfwWindowShouldClose(window))
 	{
 		handleInput(window);
-		if (gameOver == false)
-		{
 			glClearColor(0.85f, 0.85f, 0.85f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -141,15 +169,16 @@ void	App::start(GLFWwindow *window) {
 			current = glfwGetTime();
 			delta = current - last;
 
-			if (delta >= 0.2f - speed * 10.0f)
+			if (delta >= 0.2f - speed * 10.0f && !gameOver)
 			{
 				count++;
 				cat.loadTexture("assets/bwcat" + std::to_string(steps[count % 4]) + ".png", GL_RGBA);
 				last = current;
 				counter.addOne();
-				speed += 0.00001f;
+				speed += 0.00003f;
 			}
 			mv = -speed * depth;
+
 
 			floor.draw(shader, speed);
 
@@ -168,7 +197,7 @@ void	App::start(GLFWwindow *window) {
 				if (compModel[3].z < camZ)
 					compModel = glm::translate(compModel, glm::vec3(0.0f, depth, 0.0f));
 				comp[i].setModelMatrix(compModel);
-				comp[i].draw(shader, 0.0f);
+	//			comp[i].draw(shader, 0.0f);
 			}
 
 
@@ -190,11 +219,14 @@ void	App::start(GLFWwindow *window) {
 				checkCollision(obstacles[i].getModelMatrix()[3]);
 			}
 
+		if (gameOver == true) {
+			speed = 0.0f;
+			go.draw(shader, 0);
+		}
 
 
 			glfwSwapBuffers(window);
-		}
-	}	
+	}
 }
 
 void	App::checkCollision(glm::vec3 obsPos) {
