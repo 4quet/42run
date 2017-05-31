@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 15:26:41 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/29 12:02:47 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/05/31 15:50:30 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 
 # define TABLES	10
 # define COMP	20
-# define OBST	10
+# define OBST	20
+# define WIN	10
 
 class App {
 
@@ -39,6 +40,9 @@ class App {
 		Table	*leftTables[TABLES];
 
 		Cube	obstacles[OBST];
+
+		Plane	leftWindows[WIN];
+		Plane	rightWindows[WIN];
 
 		Plane	comp[COMP];
 

@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 15:38:31 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/29 12:08:57 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/05/31 18:09:31 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ App::App() {
 	wallsHeight = 50.0f;
 	initPlanes();
 	initComputersSprites();
+	initTables();
+	initObstacles();
 }
 
 void	App::handleInput(GLFWwindow *window) {
@@ -63,6 +65,7 @@ void	App::handleInput(GLFWwindow *window) {
 	{
 		initTables();
 		initObstacles();
+		initComputersSprites();
 		counter.reset();
 		speed = 0.002f;
 		gameOver = false;
@@ -113,8 +116,6 @@ void	App::start(GLFWwindow *window) {
 
 	GLfloat camZ = -30.0f;
 
-
-
 	Camera camera(glm::vec3(0.0f, 3.0f, camZ),
 			glm::vec3(0.0f, 0.0f, 0.0f),
 			glm::vec3(0.0f, 1.0f, 0.0f));
@@ -135,15 +136,30 @@ void	App::start(GLFWwindow *window) {
 	glm::mat4	goModel;
 
 	go.loadTexture("assets/go.png", GL_RGB);
-	goModel = glm::translate(goModel, glm::vec3(0.0f, 2.0f, -24.0f));
-	goModel = glm::rotate(goModel, glm::radians(110.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	goModel = glm::translate(goModel, glm::vec3(0.0f, 2.8f, -28.0f));
+	goModel = glm::rotate(goModel, glm::radians(100.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 	goModel = glm::rotate(goModel, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-	goModel = glm::scale(goModel, glm::vec3(6.0f, 6.0f, 6.0f));
+	goModel = glm::scale(goModel, glm::vec3(2.0f, 1.0f, 2.0f));
 	go.setModelMatrix(goModel);
 
-	initTables();
-	initObstacles();
+	glm::mat4	winModel;
 
+	for (int i = 0; i < WIN; ++i)
+	{
+		leftWindows[i].loadTexture("assets/darkwin.png", GL_RGBA);
+		winModel = glm::translate(glm::mat4(), glm::vec3(floorWidth / 2.0f - 0.1f, 4.0f, (GLfloat)i * 5.0f));
+		winModel = glm::rotate(winModel, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		winModel = glm::rotate(winModel, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		winModel = glm::scale(winModel, glm::vec3(4.0f, 1.0f, 4.0f));
+		leftWindows[i].setModelMatrix(winModel);
+
+		rightWindows[i].loadTexture("assets/darkwin.png", GL_RGBA);
+		winModel = glm::translate(glm::mat4(), glm::vec3(-(floorWidth / 2.0f) + 0.1f, 4.0f, (GLfloat)i * 5.0f));
+		winModel = glm::rotate(winModel, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		winModel = glm::rotate(winModel, glm::radians(-90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		winModel = glm::scale(winModel, glm::vec3(4.0f, 1.0f, 4.0f));
+		rightWindows[i].setModelMatrix(winModel);
+	}
 
 	GLfloat current;
 	GLfloat	last = 0.0f;
@@ -158,7 +174,7 @@ void	App::start(GLFWwindow *window) {
 	while (!glfwWindowShouldClose(window))
 	{
 		handleInput(window);
-			glClearColor(0.85f, 0.85f, 0.85f, 1.0f);
+			glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
@@ -175,7 +191,7 @@ void	App::start(GLFWwindow *window) {
 				cat.loadTexture("assets/bwcat" + std::to_string(steps[count % 4]) + ".png", GL_RGBA);
 				last = current;
 				counter.addOne();
-				speed += 0.00003f;
+				speed += 0.00002f;
 			}
 			mv = -speed * depth;
 
@@ -195,10 +211,14 @@ void	App::start(GLFWwindow *window) {
 			{
 				compModel = glm::translate(comp[i].getModelMatrix(), glm::vec3(0.0f, mv, 0.0f));
 				if (compModel[3].z < camZ)
+				{
 					compModel = glm::translate(compModel, glm::vec3(0.0f, depth, 0.0f));
+					comp[i].loadTexture("assets/comp-" + std::to_string(randInt(0, 4)) + ".png", GL_RGBA);
+				}
 				comp[i].setModelMatrix(compModel);
-	//			comp[i].draw(shader, 0.0f);
+				comp[i].draw(shader, 0);
 			}
+
 
 
 			for (int i = 0; i < OBST; ++i)
@@ -214,18 +234,43 @@ void	App::start(GLFWwindow *window) {
 			cat.draw(shader, 0.0f);
 			counter.draw(shader);
 
+			for (int i = 0; i < WIN; ++i)
+			{
+				winModel = glm::translate(leftWindows[i].getModelMatrix(), glm::vec3(mv / 4.0f, 0.0f, 0.0f));
+				if (winModel[3].z < camZ)
+				{
+					winModel = glm::translate(winModel, glm::vec3(depth / 4.0f, 0.0f, 0.0f));
+					if (i == 5)
+						leftWindows[i].loadTexture("assets/art-" + std::to_string(randInt(0, 6)) + ".png", GL_RGBA);
+				}
+				leftWindows[i].setModelMatrix(winModel);
+				leftWindows[i].draw(shader, 0);
+			}
+
+			for (int i = 0; i < WIN; ++i)
+			{
+				winModel = glm::translate(rightWindows[i].getModelMatrix(), glm::vec3(-mv / 4.0f, 0.0f, 0.0f));
+				if (winModel[3].z < camZ)
+				{
+					winModel = glm::translate(winModel, glm::vec3(-depth / 4.0f, 0.0f, 0.0f));
+					if (i == 0)
+						rightWindows[i].loadTexture("assets/art-" + std::to_string(randInt(0, 6)) + ".png", GL_RGBA);
+				}
+				rightWindows[i].setModelMatrix(winModel);
+				rightWindows[i].draw(shader, 0);
+			}
+
 			for (int i = 0; i < OBST; ++i)
 			{
 				checkCollision(obstacles[i].getModelMatrix()[3]);
 			}
 
+
 		if (gameOver == true) {
 			speed = 0.0f;
 			go.draw(shader, 0);
 		}
-
-
-			glfwSwapBuffers(window);
+		glfwSwapBuffers(window);
 	}
 }
 
