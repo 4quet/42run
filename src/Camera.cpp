@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/18 16:00:28 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/02 16:09:33 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/06/02 16:07:51 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ void		Camera::setPosition(glm::vec3 position) {
 }
 
 void		Camera::setPerspective(float fov) {
-	_projection = glm::perspective(glm::radians(fov), (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT, (float)Z_NEAR, (float)Z_FAR);
+	_projection = glm::perspective(glm::radians(fov),
+			(float)WINDOW_WIDTH / (float)WINDOW_HEIGHT,
+			(float)Z_NEAR, (float)Z_FAR);
 }
 
 Camera::~Camera() {

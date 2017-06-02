@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 15:38:31 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/15 15:25:49 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/06/02 16:11:59 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ void GLFW::key_callback(GLFWwindow* window, int key, int scancode, int action, i
 {
 	(void)scancode;
 	(void)mode;
-	// When a user presses the escape key, we set the WindowShouldClose property to true, 
-	// closing the application
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GL_TRUE);
 } 
@@ -31,6 +29,7 @@ GLFWwindow *	GLFW::getWindow() const {
 }
 
 void	GLFW::init() {
+	int width, height;
 
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -46,16 +45,12 @@ void	GLFW::init() {
 		throw std::runtime_error("Failed to create GLFW window");
 	}
 	glfwMakeContextCurrent(_window);
-
-	int width, height;
 	glfwGetFramebufferSize(_window, &width, &height);
-
 	glfwSetKeyCallback(_window, key_callback); 
 
 	glEnable(GL_DEPTH_TEST); 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 	glViewport(0, 0, width, height);
 }
 

@@ -6,7 +6,7 @@
 #    By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/04 08:44:51 by lfourque          #+#    #+#              #
-#    Updated: 2017/06/02 11:19:52 by lfourque         ###   ########.fr        #
+#    Updated: 2017/06/02 16:20:41 by lfourque         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,9 @@ OBJ_DIR = obj/
 
 NAME = 42run
 SRC_FILES = main.cpp\
+			App.init.cpp\
+			App.input.cpp\
+			App.draw.cpp\
 			App.cpp\
 			GLFW.cpp\
 			Shader.cpp\

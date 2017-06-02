@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/10 11:12:57 by lfourque          #+#    #+#             */
-/*   Updated: 2017/06/02 12:08:15 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/06/02 16:13:38 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,7 @@ void	Table::translate(glm::vec3 v) {
 void	Table::draw(Shader & shader, GLfloat speed, GLfloat depth) {
 	translate(glm::vec3(0.0f, 0.0f, -speed * depth));
 	if (topModelMatrix[3].z < -30.0f)
-	{
 		translate(glm::vec3(0.0f, 0.0f, depth));
-	}
 	top.draw(shader, 0);
 	feetA.draw(shader, 0);
 	feetB.draw(shader, 0);

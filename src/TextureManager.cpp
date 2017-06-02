@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/02 11:12:49 by lfourque          #+#    #+#             */
-/*   Updated: 2017/06/02 11:50:38 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/06/02 16:07:18 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,16 @@ void	TextureManager::loadFromDir(std::string path) {
 }
 
 void	TextureManager::load(std::string path, GLenum type) {
-	int width, height;
-	GLenum	soilType;
-	GLuint	texture;
+	int 			width, height;
+	unsigned char	*image;
+	GLenum			soilType;
+	GLuint			texture;
 
 	soilType = (type == GL_RGBA) ? SOIL_LOAD_RGBA : SOIL_LOAD_RGB;
-	unsigned char* image = SOIL_load_image(path.c_str(), &width, &height, 0, soilType); 
+	image = SOIL_load_image(path.c_str(), &width, &height, 0, soilType); 
 
 	glGenTextures(1, &texture);
-
 	glBindTexture(GL_TEXTURE_2D, texture);
-
 	glTexImage2D(GL_TEXTURE_2D, 0, type, width, height, 0, type, GL_UNSIGNED_BYTE, image);
 	glGenerateMipmap(GL_TEXTURE_2D);
 
@@ -60,7 +59,6 @@ void	TextureManager::load(std::string path, GLenum type) {
 	glBindTexture(GL_TEXTURE_2D, 0);
 
 	textures.insert(std::pair<std::string, GLuint>(path, texture));
-	std::cout << "Loaded " << path << " with id " << texture << std::endl;
 }
 
 GLuint	TextureManager::get(std::string name) {

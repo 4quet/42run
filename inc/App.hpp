@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 15:26:41 by lfourque          #+#    #+#             */
-/*   Updated: 2017/06/02 12:17:47 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/06/02 16:26:28 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,17 @@
 # define COMP	20
 # define OBST	20
 # define WIN	10
+# define CAM_Z	-30.0f
 
 class App {
 
 	private:
 		int 	keys[350];
 		Plane	cat;
+
 		glm::mat4	catModel;
+
+		glm::mat4	model;
 
 		GLfloat		velocityY;
 		GLfloat		gravity;
@@ -39,6 +43,7 @@ class App {
 		Plane	leftWall;
 		Plane	rightWall;
 		Plane	floor;
+		Plane	go;
 
 		Table	*rightTables[TABLES];
 		Table	*leftTables[TABLES];
@@ -58,15 +63,30 @@ class App {
 		App &	operator=(App const & rhs);
 		App(App const & rhs);
 
-		void	handleInput(GLFWwindow *window);
+		void		handleInput(GLFWwindow *window);
+		GLboolean	isPressed(GLFWwindow *window, GLenum key);
+
 		void	initPlanes();
 		void	initObstacles();
 		void	initTables();
 		void	initComputersSprites();
+		void	initWindowsSprites();
+
+		void	drawObstacles(Shader & shader);
+		void	drawTables(Shader & shader);
+		void	drawComputersSprites(Shader & shader);
+		void	drawWindowsSprites(Shader & shader);
 
 		void	applyGravity();
+		void	jump();
+		void	moveLeft();
+		void	moveRight();
+
+		void	resetGame();
+		void	pause();
 
 		void	checkCollision(glm::vec3 obsPos);
+
 
 	public:
 
