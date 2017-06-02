@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/03 14:10:38 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/18 14:46:54 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/06/02 12:11:58 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,22 +57,8 @@ Plane::Plane() {
 void		Plane::setModelMatrix(glm::mat4 m) { model = m; }
 glm::mat4	Plane::getModelMatrix() const { return model; }
 
-void	Plane::loadTexture(std::string path, GLenum type) {
-	int width, height;
-	GLenum	soilType;
-
-	soilType = (type == GL_RGBA) ? SOIL_LOAD_RGBA : SOIL_LOAD_RGB;
-	unsigned char* image = SOIL_load_image(path.c_str(), &width, &height, 0, soilType); 
-
-	glGenTextures(1, &texture);  
-
-	glBindTexture(GL_TEXTURE_2D, texture);
-
-	glTexImage2D(GL_TEXTURE_2D, 0, type, width, height, 0, type, GL_UNSIGNED_BYTE, image);
-	glGenerateMipmap(GL_TEXTURE_2D);
-
-	SOIL_free_image_data(image);
-	glBindTexture(GL_TEXTURE_2D, 0);
+void	Plane::setTexture(GLuint id) {
+	texture = id;
 }
 
 void	Plane::draw(Shader & shader, GLfloat speed) {
@@ -80,7 +66,6 @@ void	Plane::draw(Shader & shader, GLfloat speed) {
 	offset += speed;
 
 	glBindVertexArray(VAO);
-
 
 	shader.setUniformMatrix(model, "model");
 

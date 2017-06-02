@@ -6,33 +6,33 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/10 11:12:57 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/15 14:25:18 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/06/02 12:08:15 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <42run.h>
 
-Table::Table(glm::vec3 pos) {
-	buildTable(pos);
+Table::Table(glm::vec3 pos, TextureManager & tm) {
+	buildTable(pos, tm);
 }
 
-void	Table::buildTable(glm::vec3 pos) {
-	top.loadTexture("assets/whitepaper.jpg", GL_RGB);
+void	Table::buildTable(glm::vec3 pos, TextureManager & tm) {
+	top.setTexture(tm.get("assets/whitepaper.jpg"));
 	topModelMatrix = glm::translate(topModelMatrix, glm::vec3(0.0f, 1.05f, 0.0f) + pos);
 	topModelMatrix = glm::scale(topModelMatrix, glm::vec3(12.0f, 0.1f, 1.0f));
 	top.setModelMatrix(topModelMatrix);
 
-	feetA.loadTexture("assets/black-metal.jpg", GL_RGB);
+	feetA.setTexture(tm.get("assets/black-metal.jpg"));
 	feetAModelMatrix = glm::translate(feetAModelMatrix, glm::vec3(4.0f, 0.5f, 0.0f) + pos);
 	feetAModelMatrix = glm::scale(feetAModelMatrix, glm::vec3(0.1f, 1.0f, 1.0f));
 	feetA.setModelMatrix(feetAModelMatrix);
 
-	feetB.loadTexture("assets/black-metal.jpg", GL_RGB);
+	feetB.setTexture(tm.get("assets/black-metal.jpg"));
 	feetBModelMatrix = glm::translate(feetBModelMatrix, glm::vec3(0.0f, 0.5f, 0.0f) + pos);
 	feetBModelMatrix = glm::scale(feetBModelMatrix, glm::vec3(0.1f, 1.0f, 1.0f));
 	feetB.setModelMatrix(feetBModelMatrix);
 
-	feetC.loadTexture("assets/black-metal.jpg", GL_RGB);
+	feetC.setTexture(tm.get("assets/black-metal.jpg"));
 	feetCModelMatrix = glm::translate(feetCModelMatrix, glm::vec3(-4.0f, 0.5f, 0.0f) + pos);
 	feetCModelMatrix = glm::scale(feetCModelMatrix, glm::vec3(0.1f, 1.0f, 1.0f));
 	feetC.setModelMatrix(feetCModelMatrix);

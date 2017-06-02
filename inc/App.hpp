@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 15:26:41 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/31 15:50:30 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/06/02 12:17:47 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,12 @@ class App {
 		GLfloat		gravity;
 		GLboolean	onGround;
 		GLboolean	gameOver;
+		GLboolean	paused;
 
-		Counter		counter;
+
+		Counter		*counter;
+
+		TextureManager	tm;
 
 		Plane	leftWall;
 		Plane	rightWall;

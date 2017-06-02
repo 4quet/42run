@@ -1,43 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Cube.hpp                                           :+:      :+:    :+:   */
+/*   TextureManager.hpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/03 14:12:00 by lfourque          #+#    #+#             */
-/*   Updated: 2017/06/02 12:13:45 by lfourque         ###   ########.fr       */
+/*   Created: 2017/06/02 11:09:05 by lfourque          #+#    #+#             */
+/*   Updated: 2017/06/02 11:49:35 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUBE_HPP
-# define CUBE_HPP
+#ifndef TEXTURE_MANAGER_HPP
+# define TEXTURE_MANAGER_HPP
 
-class Cube {
+class TextureManager {
+
 	private:
-		GLuint	VAO;
-		GLuint	VBO;
+		std::map<std::string, GLuint>	textures;
 
-		GLuint texture;
-
-		GLfloat	offset;
-
-		glm::mat4 	model;
-
-		Cube(Cube const & rhs);
-		Cube &	operator=(Cube const & rhs);
+		TextureManager(TextureManager const & rhs);
+		TextureManager &	operator=(TextureManager const & rhs);
 
 	public:
-		Cube();
-		
-		void	draw(Shader & shader, float speed);
+		TextureManager();
 
-		void	setTexture(GLuint id);
+		void	loadFromDir(std::string path);
+		void	load(std::string path, GLenum type);
+		GLuint	get(std::string name);
 
-		void	setModelMatrix(glm::mat4 m);
-		glm::mat4	getModelMatrix() const;
-
-		~Cube();
+		~TextureManager();
 };
 
 #endif

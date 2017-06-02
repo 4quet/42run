@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/10 11:08:32 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/10 13:53:06 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/06/02 12:15:38 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ class Table {
 		Table(Table const & rhs);
 		Table &	operator=(Table const & rhs);
 
-		void	buildTable(glm::vec3 pos);
+		void	buildTable(glm::vec3 pos, TextureManager & tm);
 
 	public:
-		Table(glm::vec3 pos);
+		Table(glm::vec3 pos, TextureManager & tm);
 
 		void	draw(Shader & shader, GLfloat speed, GLfloat depth);
 		void	translate(glm::vec3 v);

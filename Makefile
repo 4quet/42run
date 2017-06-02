@@ -6,7 +6,7 @@
 #    By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/04 08:44:51 by lfourque          #+#    #+#              #
-#    Updated: 2017/05/22 14:15:53 by lfourque         ###   ########.fr        #
+#    Updated: 2017/06/02 11:19:52 by lfourque         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SRC_FILES = main.cpp\
 			Cube.cpp\
 			Plane.cpp\
 			Table.cpp\
+			TextureManager.cpp\
 			Counter.cpp
 
 SRC = $(addprefix $(SRC_DIR), $(SRC_FILES))

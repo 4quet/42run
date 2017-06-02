@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/22 14:12:57 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/29 12:07:30 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/06/02 12:17:38 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,16 @@ class Counter {
 
 		Counter(Counter const & rhs);
 		Counter &	operator=(Counter const & rhs);
-
-	public:
 		Counter();
 
-		void	reset();
+	public:
+		Counter(TextureManager & tm);
+
+		void	reset(TextureManager & tm);
 		void	draw(Shader & shader);
-		void	addOne();
-		void	addTen();
-		void	addHundred();
+		void	addOne(TextureManager & tm);
+		void	addTen(TextureManager & tm);
+		void	addHundred(TextureManager & tm);
 
 
 		~Counter();

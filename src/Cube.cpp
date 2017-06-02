@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/03 14:10:38 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/10 13:37:07 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/06/02 12:12:58 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,22 +85,8 @@ Cube::Cube() {
 void		Cube::setModelMatrix(glm::mat4 m) { model = m; }
 glm::mat4	Cube::getModelMatrix() const { return model; }
 
-void	Cube::loadTexture(std::string path, GLenum type) {
-	int width, height;
-	GLenum	soilType;
-
-	soilType = (type == GL_RGBA) ? SOIL_LOAD_RGBA : SOIL_LOAD_RGB;
-	unsigned char* image = SOIL_load_image(path.c_str(), &width, &height, 0, soilType); 
-
-	glGenTextures(1, &texture);  
-
-	glBindTexture(GL_TEXTURE_2D, texture);
-
-	glTexImage2D(GL_TEXTURE_2D, 0, type, width, height, 0, type, GL_UNSIGNED_BYTE, image);
-	glGenerateMipmap(GL_TEXTURE_2D);
-
-	SOIL_free_image_data(image);
-	glBindTexture(GL_TEXTURE_2D, 0);
+void	Cube::setTexture(GLuint id) {
+	texture = id;
 }
 
 void	Cube::draw(Shader & shader, GLfloat speed) {

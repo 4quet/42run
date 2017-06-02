@@ -6,13 +6,13 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/22 14:15:24 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/29 12:13:06 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/06/02 12:17:07 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <42run.h>
 
-Counter::Counter() {
+Counter::Counter(TextureManager & tm) {
 	glm::mat4	model;
 
 	model = glm::translate(model, glm::vec3(-13.0f, 8.0f, -10.0f));	
@@ -30,16 +30,16 @@ Counter::Counter() {
 	model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 	hSprite.setModelMatrix(model);
 
-	reset();
+	reset(tm);
 }
 
-void	Counter::reset() {
+void	Counter::reset(TextureManager & tm) {
 	units = 0;
 	tens = 0;
 	hundreds = 0;
-	uSprite.loadTexture("assets/0.png", GL_RGBA);
-	tSprite.loadTexture("assets/0.png", GL_RGBA);
-	hSprite.loadTexture("assets/0.png", GL_RGBA);
+	uSprite.setTexture(tm.get("assets/0.png"));
+	tSprite.setTexture(tm.get("assets/0.png"));
+	hSprite.setTexture(tm.get("assets/0.png"));
 }
 
 void	Counter::draw(Shader & shader) {
@@ -48,30 +48,30 @@ void	Counter::draw(Shader & shader) {
 	hSprite.draw(shader, 0.0f);
 }
 
-void	Counter::addOne() {
+void	Counter::addOne(TextureManager & tm) {
 	units += 1;
 	if (units == 10)
 	{
-		addTen();
+		addTen(tm);
 		units = 0;
 	}
-	uSprite.loadTexture("assets/" + std::to_string(units) + ".png", GL_RGBA);
+	uSprite.setTexture(tm.get("assets/" + std::to_string(units) + ".png"));
 }
 
-void	Counter::addTen() {
+void	Counter::addTen(TextureManager & tm) {
 	tens += 1;
 	if (tens == 10)
 	{
-		addHundred();
+		addHundred(tm);
 		tens = 0;
 	}
-	tSprite.loadTexture("assets/" + std::to_string(tens) + ".png", GL_RGBA);
+	tSprite.setTexture(tm.get("assets/" + std::to_string(tens) + ".png"));
 }
 
-void	Counter::addHundred() {
+void	Counter::addHundred(TextureManager & tm) {
 	hundreds += 1;
 	if (hundreds < 10)
-		hSprite.loadTexture("assets/" + std::to_string(hundreds) + ".png", GL_RGBA);
+		hSprite.setTexture(tm.get("assets/" + std::to_string(hundreds) + ".png"));
 }
 
 Counter::~Counter() {

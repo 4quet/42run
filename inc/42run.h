@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 15:48:48 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/23 16:07:00 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/06/02 12:14:51 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@
 # include <cmath>
 # include <cstdlib>
 # include <ctime>
+# include <map>
+
+# include <vector> //
+
+
 
 # define GLFW_INCLUDE_GLCOREARB
 # include <GLFW/glfw3.h>
@@ -39,6 +44,7 @@
 # include <GLFW.hpp>
 # include <Shader.hpp>
 # include <Camera.hpp>
+# include <TextureManager.hpp>
 # include <Plane.hpp>
 # include <Cube.hpp>
 # include <Table.hpp>
