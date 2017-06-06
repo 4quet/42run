@@ -6,7 +6,7 @@
 #    By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/04 08:44:51 by lfourque          #+#    #+#              #
-#    Updated: 2017/06/02 16:20:41 by lfourque         ###   ########.fr        #
+#    Updated: 2017/06/06 17:07:27 by lfourque         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ CFLAGS = -Wall -Wextra -Werror
 GLFW_LIB = `pkg-config --libs glfw3`
 GLFW_INC = `pkg-config --cflags glfw3`
 GLM_INC = inc/glm
-FWK = -framework OpenGL -L libSOIL/lib -lSOIL
+FWK = -framework OpenGL -L lib -lSOIL
 
 all: $(NAME)
 	@echo "\033[32m•\033[0m $(NAME) ready"
