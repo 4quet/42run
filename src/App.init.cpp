@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/02 15:59:06 by lfourque          #+#    #+#             */
-/*   Updated: 2017/06/02 16:00:59 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/06/06 15:21:37 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,18 @@
 
 void	App::initTables() {
 	for (int i = 0; i < TABLES; ++i)
+	{
 		leftTables[i] = new Table(glm::vec3(floorWidth / 2.0f - 6.0f, 0.0f, 5.0f * (GLfloat)i), tm);
-	for (int i = 0; i < TABLES; ++i)
 		rightTables[i] = new Table(glm::vec3(-(floorWidth / 2.0f - 6.0f), 0.0f, 5.0f * (GLfloat)i), tm);
+	}
+}
+
+void	App::freeTables() {
+	for (int i = 0; i < TABLES; ++i)
+	{
+		delete leftTables[i];
+		delete rightTables[i];
+	}
 }
 
 void	App::initObstacles() {

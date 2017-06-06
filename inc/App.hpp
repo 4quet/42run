@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 15:26:41 by lfourque          #+#    #+#             */
-/*   Updated: 2017/06/02 16:26:28 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/06/06 15:39:09 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,80 +20,76 @@
 # define CAM_Z	-30.0f
 
 class App {
-
 	private:
-		int 	keys[350];
-		Plane	cat;
-
-		glm::mat4	catModel;
-
-		glm::mat4	model;
-
 		GLfloat		velocityY;
 		GLfloat		gravity;
+		GLfloat		depth;
+		GLfloat		speed;
+		GLfloat		floorWidth;
+		GLfloat		wallsHeight;
 		GLboolean	onGround;
 		GLboolean	gameOver;
 		GLboolean	paused;
 
-
-		Counter		*counter;
-
+		Counter			*counter;
 		TextureManager	tm;
 
+		Plane	cat;
 		Plane	leftWall;
 		Plane	rightWall;
 		Plane	floor;
 		Plane	go;
+
+		Plane	leftWindows[WIN];
+		Plane	rightWindows[WIN];
+		Plane	comp[COMP];
 
 		Table	*rightTables[TABLES];
 		Table	*leftTables[TABLES];
 
 		Cube	obstacles[OBST];
 
-		Plane	leftWindows[WIN];
-		Plane	rightWindows[WIN];
+		glm::mat4	catModel;
+		glm::mat4	model;
 
-		Plane	comp[COMP];
-
-		GLfloat	floorWidth;
-		GLfloat	wallsHeight;
-		GLfloat	depth;
-		GLfloat	speed;
+		int 		keys[350];
 
 		App &	operator=(App const & rhs);
 		App(App const & rhs);
 
-		void		handleInput(GLFWwindow *window);
+		/* App.input.cpp */
 		GLboolean	isPressed(GLFWwindow *window, GLenum key);
+		void		handleInput(GLFWwindow *window);
+		void		jump();
+		void		moveLeft();
+		void		moveRight();
+		void		resetGame();
+		void		pause();
 
-		void	initPlanes();
-		void	initObstacles();
-		void	initTables();
-		void	initComputersSprites();
-		void	initWindowsSprites();
+		/* App.init.cpp */
+		void		initPlanes();
+		void		freeTables();
+		void		initObstacles();
+		void		initTables();
+		void		initComputersSprites();
+		void		initWindowsSprites();
 
-		void	drawObstacles(Shader & shader);
-		void	drawTables(Shader & shader);
-		void	drawComputersSprites(Shader & shader);
-		void	drawWindowsSprites(Shader & shader);
+		/* App.draw.cpp */
+		void		drawObstacles(Shader & shader);
+		void		drawTables(Shader & shader);
+		void		drawComputersSprites(Shader & shader);
+		void		drawWindowsSprites(Shader & shader);
 
-		void	applyGravity();
-		void	jump();
-		void	moveLeft();
-		void	moveRight();
-
-		void	resetGame();
-		void	pause();
-
-		void	checkCollision(glm::vec3 obsPos);
-
+		/* App.cpp */
+		void		applyGravity();
+		void		addStep();
+		void		checkCollision(glm::vec3 obsPos);
 
 	public:
-
 		App();
 		~App();
 
-		void	start(GLFWwindow *window);
+		void		start(GLFWwindow *window);
 };
 
 #endif

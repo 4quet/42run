@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/26 15:26:41 by lfourque          #+#    #+#             */
-/*   Updated: 2017/05/15 15:19:22 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/06/06 15:42:06 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define GLFW_HPP
 
 class GLFW {
-
 	private:
 		GLFWwindow	*_window;
 
@@ -24,15 +23,11 @@ class GLFW {
 		static void key_callback(GLFWwindow *window, int key, int scancode, int action, int mode);
 
 	public:
-		int	keys[350];
-
 		GLFW();
 		~GLFW();
 
-		void	init();
-		
-		GLFWwindow *	getWindow() const;
-
+		void		init();
+		GLFWwindow 	*getWindow() const;
 };
 
 #endif

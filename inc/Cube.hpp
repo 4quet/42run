@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/03 14:12:00 by lfourque          #+#    #+#             */
-/*   Updated: 2017/06/02 12:13:45 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/06/06 15:41:20 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,10 @@
 
 class Cube {
 	private:
-		GLuint	VAO;
-		GLuint	VBO;
-
-		GLuint texture;
-
-		GLfloat	offset;
-
+		GLuint		VAO;
+		GLuint		VBO;
+		GLuint		texture;
+		GLfloat		offset;
 		glm::mat4 	model;
 
 		Cube(Cube const & rhs);
@@ -30,11 +27,9 @@ class Cube {
 	public:
 		Cube();
 		
-		void	draw(Shader & shader, float speed);
-
-		void	setTexture(GLuint id);
-
-		void	setModelMatrix(glm::mat4 m);
+		void		draw(Shader & shader, float speed);
+		void		setTexture(GLuint id);
+		void		setModelMatrix(glm::mat4 m);
 		glm::mat4	getModelMatrix() const;
 
 		~Cube();

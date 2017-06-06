@@ -6,7 +6,7 @@
 /*   By: lfourque <lfourque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/02 16:02:36 by lfourque          #+#    #+#             */
-/*   Updated: 2017/06/02 16:35:18 by lfourque         ###   ########.fr       */
+/*   Updated: 2017/06/06 15:21:56 by lfourque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	App::resetGame() {
 	gameOver = false;
 	paused = false;
 	counter->reset(tm);
+	freeTables();
 	initTables();
 	initObstacles();
 	initComputersSprites();
